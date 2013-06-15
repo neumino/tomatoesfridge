@@ -310,7 +310,9 @@ function show_info(data, event) {
 function update_info(data) {
     $('.movie_title').html(data.node.title);
     $('.audience_score').width( data.node.ratings.audience_score+'%');
+    $('.audience_score_container').attr('title', data.node.ratings.audience_score+'%');
     $('.critics_score').width(data.node.ratings.critics_score+'%');
+    $('.critics_score_container').attr('title', data.node.ratings.critics_score+'%');
     $('.more > a').attr("href", data.node.links.alternate);
     $('.critic').html(data.node.critics_consensus);
     $('.movie_container').fadeIn('fast');
@@ -334,7 +336,7 @@ function show_about(cb) {
 var translate_values; // keep it global
 $(document).ready( function() {
     svg_container = $('.container');
-    svg_jquery= $('.main_svg');
+    body = $('body');
 
     // Bind mouse events for translation
     var mousedown = false;
@@ -349,7 +351,7 @@ $(document).ready( function() {
                 x: event.x,
                 y: event.y
             }
-            svg_jquery.addClass('disable-select');
+            body.addClass('disable-select');
             hide_info();
             hide_help();
             hide_about();
@@ -370,7 +372,7 @@ $(document).ready( function() {
         })
         .on('mouseup', function(e) {
             mousedown = false;
-            svg_jquery.removeClass('disable-select');
+            body.removeClass('disable-select');
         });
 
     $('.help_link').click( function(e) {
@@ -408,6 +410,10 @@ $(document).ready( function() {
     });
 
     init_movie(DEFAULT_MOVIE);
+
+    // This thing is somehow not properly working...
+    $('.audience_score_container').tooltip({trigger: 'hover', placement: 'bottom'});
+    $('.critics_score_container').tooltip({trigger: 'hover', placement: 'bottom'});
 
 });
 
