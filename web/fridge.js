@@ -333,8 +333,8 @@ function show_about(cb) {
 
 var translate_values; // keep it global
 $(document).ready( function() {
-    //TODO Let people select text. Conflict with drag...
     svg_container = $('.container');
+    svg_jquery= $('.main_svg');
 
     // Bind mouse events for translation
     var mousedown = false;
@@ -349,7 +349,7 @@ $(document).ready( function() {
                 x: event.x,
                 y: event.y
             }
-            svg_container.addClass('disable-select');
+            svg_jquery.addClass('disable-select');
             hide_info();
             hide_help();
             hide_about();
@@ -370,7 +370,7 @@ $(document).ready( function() {
         })
         .on('mouseup', function(e) {
             mousedown = false;
-            svg_container.removeClass('disable-select');
+            svg_jquery.removeClass('disable-select');
         });
 
     $('.help_link').click( function(e) {
