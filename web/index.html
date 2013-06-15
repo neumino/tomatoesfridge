@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tomatoes Fridge</title>
+        <link rel="stylesheet" media="screen" href="bootstrap.min.css"/>
+        <link rel="stylesheet" media="screen" href="style.css"/>
+        <script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+        <script type="text/javascript" src="d3.v3.min.js"></script>
+        <script type="text/javascript" src="fridge.js"></script>
+        <script type="text/javascript" src="bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <ul class="navigation">
+                <li><input type="text" class="search" placeholder="Search not available..." disabled="disabled" /><button class="search_button" disabled="disabled">Search</button></li>
+                <li class="right"><a href="#about" class="about_link">About</a></li>
+                <li class="right"><a href="#help" class="help_link">Help</a></li>
+            </ul>
+            <div id="container" class="disable-select">
+                <svg id="main_svg"><g class="wrap"></g></svg>
+
+                <div class="feedback_container"></div>
+                <div class="info_container movie_container">
+                    <div class="info_header">
+                        <a class="close" href="#">×</a>
+                        <h1 class="movie_title title"></h1> 
+                    </div>
+                    <div class="info_content">
+                        <div class="audience_score_container">Audience score:
+                            <div class="background"><div class="audience_score score"></div></div>
+                        </div>
+                        <div class="critics_score_container">Critics score:
+                            <div class="background"><div class="critics_score score"></div></div>
+                        </div>
+                        <p class="critic"></p>
+                        <p class="more"><a target="_blank" href="" alt="More on Rotten Tomatoes" class="more_link">More »</a></p>
+                    </div>
+                </div>
+
+                <div class="info_container help_container">
+                    <div class="info_header">
+                        <a class="close" href="#">×</a>
+                        <h1 class="title">Help</h1> 
+                    </div>
+                    <div class="info_content">
+                        <ul>
+                            <li>Click on a dot to show the 5 first similar movies from <a href="http://rottentomatoes.com" target="_blank">rottentomatoes.com</a>.</li>
+                            <li>Click on a title to show more information about the movie.</li>
+                            <li>The graph may need a few seconds to stabilize.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info_container about_container">
+                    <div class="info_header">
+                        <a class="close" href="#">×</a>
+                        <h1 class="title">About</h1> 
+                    </div>
+                    <div class="info_content">
+                        <ul>
+                            <li>Author: Michel Tu</li>
+                            <li>Contact: <a href="">orphee@gmail.com</a></li>
+                            <li>Main stack: <a href="" target="_blank">D3.js</a>, <a href="http://www.rethinkdb.com" target="_blank">RethinkDB</a>, <a href="http://flask.pocoo.org/" target="_blank">Flask</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>
