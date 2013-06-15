@@ -1,0 +1,6 @@
+[DEFAULT]
+API_KEY: <rottentomatoes api key>
+RDB_HOST: <rethinkdb host>
+RDB_PORTT: <rethinkdb driver port>
+RDB_DB: <database>
+DEBUG: <0 or 1>

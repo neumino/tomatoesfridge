@@ -46,6 +46,14 @@ body{
 .navigation li a:hover{
     text-decoration: underline;
 }
+.loader{
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    margin-left -8px;
+    z-index: 20;
+}
 
 #container{
     width: 100%;
@@ -67,11 +75,12 @@ body{
     bottom: 0px;
     margin-bottom: 30px;
     text-align: center;
+    z-index: 100;
 }
 .feedback_container .feedback{
     display: inline;
     padding: 5px;
-    font-size: 0.8em;
+    font-size: 1em;
     background: #f9f9f9;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

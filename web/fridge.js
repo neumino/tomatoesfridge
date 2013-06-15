@@ -9,14 +9,33 @@ var links = [];
 // faster search
 var movies_hash = {}
 var links_hash = {}
+var timeout_error = null
 
 function show_error(error) {
-    console.log(error);
+    $('.feedback').html(error);
+    $('.feedback_container').fadeIn();
+    if (timeout_error != null) clearTimeout(timeout_error);
+    timeout_error = setTimeout(hide_error, 3000);
+}
+function handle_http_error(data) {
+    if (data["status"] != null) { 
+        show_error("Ajax request failed with status "+data["status"]+".");
+    }
+    else {
+        show_error("Ajax request failed.");
+    }
+    $('.loader').hide();
+}
+function hide_error() {
+    $('.feedback_container').fadeOut();
+    timeout_error = null;
 }
 
+// Get the first movie
 function init_movie(movie_id) {
+    $('.loader').show(); // In a perfect world, we would have a counter
     $.ajax({
-        url: 'init?id_movie='+movie_id,
+        url: 'api/init?id_movie='+movie_id,
         dataType: 'json',
         type: 'get',
         success: save_first_movie,
@@ -24,6 +43,7 @@ function init_movie(movie_id) {
     });
 }
 
+// Callback for first movie
 function save_first_movie(data) {
     if (data['error'])
         return show_error(data['error']);
@@ -38,13 +58,19 @@ function save_first_movie(data) {
         target : labelAnchors[labelAnchors.length-1],
         weight : 1
     });
-
-    get_movie(data['id']);
+    if (data['similar_movies'] != null) {
+        update_data(data);
+    }
+    else {
+        get_movie(data['id']);
+    }
 }
 
+// Get similar movies
 function get_movie(movie_id) {
+    $('.loader').show(); // In a perfect world, we would have a counter
     $.ajax({
-        url: 'get?id_movie='+movie_id,
+        url: 'api/get?id_movie='+movie_id,
         dataType: 'json',
         type: 'get',
         success: update_data,
@@ -52,12 +78,15 @@ function get_movie(movie_id) {
     });
 }
 
+// Callback for similar movies
 function update_data(data) {
+    $('.loader').hide();
+
     if (data['error'])
         return show_error(data['error']);
 
-    for(var i in data['movies']) {
-        movie = data['movies'][i];
+    for(var i in data['similar_movies']) {
+        movie = data['similar_movies'][i];
         if (movies_hash[movie['id']] == null){
             //TODO: Give movie a position
             /*
@@ -96,20 +125,8 @@ function update_data(data) {
     draw_movies();
 }
 
-function handle_http_error(data) {
-    console.log("Fail to load data");
-}
-
-function clean() {
-    svg = $('svg > g')[0];
-    while (svg.lastChild) {
-        svg.removeChild(svg.lastChild);
-    }
-}
-
+// Draw new movies
 function draw_movies() {
-    //clean();
-
     var w = $(window).width();
     var h = $(window).height()-HEADER_HEIGHT;
 
@@ -277,6 +294,7 @@ function draw_movies() {
     });
 }
 
+// Show extra stuff
 function show_info(data, event) {
     event.stopPropagation();
     event.preventDefault();
@@ -297,7 +315,6 @@ function update_info(data) {
     $('.critic').html(data.node.critics_consensus);
     $('.movie_container').fadeIn('fast');
 }
-
 function hide_info() {
     $('.movie_container').fadeOut('fast');
 }
@@ -319,7 +336,7 @@ $(document).ready( function() {
     //TODO Let people select text. Conflict with drag...
     svg_container = $('.container');
 
-    // Bind mouse events
+    // Bind mouse events for translation
     var mousedown = false;
     translate_values = {x:0, y:0};
     var previous_position;
@@ -354,7 +371,8 @@ $(document).ready( function() {
         .on('mouseup', function(e) {
             mousedown = false;
             svg_container.removeClass('disable-select');
-        })
+        });
+
     $('.help_link').click( function(e) {
         e.preventDefault();
         if ($('.help_container').css('display') == 'block') {
@@ -384,12 +402,12 @@ $(document).ready( function() {
         }
     });
 
-
-    init_movie(DEFAULT_MOVIE);
-
     $('.close').click( function(e) {
         e.preventDefault();
         hide_info();
     });
+
+    init_movie(DEFAULT_MOVIE);
+
 });
 
