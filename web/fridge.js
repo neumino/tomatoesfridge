@@ -159,8 +159,8 @@ function draw_movies() {
     node.append("svg:circle").attr("r", 5).style("fill", "#555").style("stroke", "#FFF").style("stroke-width", 3)
         .on("click", function(d, i){
             click_position = {
-                x: (event.x!=event.x)? Math.floor(w/2): event.x,
-                y: (event.y!=event.y)? Math.floor(h/2): event.y
+                x: (d3.event.x!=d3.event.x)? Math.floor(w/2): d3.event.x,
+                y: (d3.event.y!=d3.event.y)? Math.floor(h/2): d3.event.y
             }
             get_movie(d.id);
         });
@@ -348,8 +348,8 @@ $(document).ready( function() {
     svg.on('mousedown', function(e) {
             mousedown = true;
             previous_position = {
-                x: e.x,
-                y: e.y
+                x: d3.event.x,
+                y: d3.event.y
             }
             body.addClass('disable-select');
             hide_info();
@@ -358,15 +358,15 @@ $(document).ready( function() {
         })
         .on('mousemove', function(e) {
             if (mousedown) {
-                translate_values.x += e.x-previous_position.x;
-                translate_values.y += e.y-previous_position.y;
+                translate_values.x += d3.event.x-previous_position.x;
+                translate_values.y += d3.event.y-previous_position.y;
                 
                 wrap.attr("transform", function(d) {
                     return "translate(" + translate_values.x + "," + translate_values.y + ")";
                 });
 
-                previous_position.x = e.x;
-                previous_position.y = e.y;
+                previous_position.x = d3.event.x;
+                previous_position.y = d3.event.y;
 
             }
         })
