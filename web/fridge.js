@@ -295,9 +295,9 @@ function draw_movies() {
 }
 
 // Show extra stuff
-function show_info(data, event) {
-    event.stopPropagation();
-    event.preventDefault();
+function show_info(data, e) {
+    e.stopPropagation();
+    e.preventDefault();
     if ($('.movie_container').css('display') == 'block') {
         $('.movie_container').fadeOut('fast', function() {
             update_info(data);
@@ -346,8 +346,8 @@ $(document).ready( function() {
     svg.on('mousedown', function(e) {
             mousedown = true;
             previous_position = {
-                x: event.x,
-                y: event.y
+                x: e.x,
+                y: e.y
             }
             svg_jquery.addClass('disable-select');
             hide_info();
@@ -356,15 +356,15 @@ $(document).ready( function() {
         })
         .on('mousemove', function(e) {
             if (mousedown) {
-                translate_values.x += event.x-previous_position.x;
-                translate_values.y += event.y-previous_position.y;
+                translate_values.x += e.x-previous_position.x;
+                translate_values.y += e.y-previous_position.y;
                 
                 wrap.attr("transform", function(d) {
                     return "translate(" + translate_values.x + "," + translate_values.y + ")";
                 });
 
-                previous_position.x = event.x;
-                previous_position.y = event.y;
+                previous_position.x = e.x;
+                previous_position.y = e.y;
 
             }
         })
